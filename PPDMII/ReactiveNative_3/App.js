@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
- 
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native"; // Corrigido: Pressable
+
 export default function App() {
   const [cep, setCep] = useState("");
- 
-  const buscaCep = ( value ) => {
+
+  const buscaCep = (value) => {
     let url = `https://viacep.com.br/ws/${value}/json/`;
     fetch(url)
-      .then((response) => {return response.json()})
+      .then((response) => { return response.json() })
       .then((data) => {
         console.log(data);
       })
@@ -15,7 +15,7 @@ export default function App() {
         console.error("Erro ao buscar CEP:", error);
       });
   }
- 
+
   return (
     <View style={styles.container}>
       <Text>Digite o CEP:</Text>
@@ -33,7 +33,7 @@ export default function App() {
           setCep(text);
         }}
       />
-      <Pressable>
+      <Pressable
         style={{
           backgroundColor: "#2196F3",
           padding: 10,
@@ -42,11 +42,13 @@ export default function App() {
         onPress={() => {
           buscaCep(cep);
         }}
+      >
+        <Text style={{ color: "#fff" }}>Buscar CEP</Text>
       </Pressable>
     </View>
   );
 }
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
