@@ -69,7 +69,7 @@ app.delete('/deletar/:id', async (req, res) => {
 });
 
 //alterar dados por id
-app.delete('/deletar/:id', async (req, res) => {
+app.put('/alterar/:id', async (req, res) => {
   let id = req.params.id;
   let corpo = req.body.name;
   await User.updateOne({ _id: id }, { name: corpo });
