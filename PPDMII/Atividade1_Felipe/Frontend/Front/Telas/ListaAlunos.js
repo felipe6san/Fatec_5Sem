@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { Text, Card, IconButton, Button } from 'react-native-paper';
+import { Dialog, Portal, Paragraph } from 'react-native-paper';
 import { Avatar } from 'react-native-paper';
 
 export default function ListaAlunos({ navigation, route }) {
   const [alunos, setAlunos] = useState([]);
   const [mensagem, setMensagem] = useState('');
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [alunoParaExcluir, setAlunoParaExcluir] = useState(null);
 
   const carregarAlunos = async () => {
     try {
@@ -28,18 +31,21 @@ export default function ListaAlunos({ navigation, route }) {
     }
   }, [route?.params?.atualiza]);
 
-  const excluirAluno = async (id) => {
+  const excluirAluno = async () => {
+    if (!alunoParaExcluir) return;
     try {
-      const response = await fetch(`http://192.168.50.117:3000/alunos/${id}`, { method: 'DELETE' });
+      const response = await fetch(`http://192.168.50.117:3000/alunos/${alunoParaExcluir}`, { method: 'DELETE' });
       if (response.ok) {
         setMensagem('Aluno excluído com sucesso!');
-        setAlunos(alunos.filter(a => a._id !== id));
+        setAlunos(alunos.filter(a => a._id !== alunoParaExcluir));
       } else {
         setMensagem('Erro ao excluir aluno');
       }
     } catch (error) {
       setMensagem('Erro ao conectar com o servidor');
     }
+    setDialogVisible(false);
+    setAlunoParaExcluir(null);
   };
 
   return (
@@ -83,11 +89,23 @@ export default function ListaAlunos({ navigation, route }) {
           <Card.Actions>
             <IconButton icon="eye-outline" iconColor="#c026d3" size={28} style={styles.iconAcao} onPress={() => navigation.navigate('VisualizarAluno', { aluno })} />
             <IconButton icon="pencil-outline" iconColor="#c026d3" size={28} style={styles.iconAcao} onPress={() => navigation.navigate('EditarAluno', { aluno })} />
-            <IconButton icon="trash-can-outline" iconColor="#c026d3" size={28} style={styles.iconAcao} onPress={() => excluirAluno(aluno._id)} />
+            <IconButton icon="trash-can-outline" iconColor="#c026d3" size={28} style={styles.iconAcao} onPress={() => { setAlunoParaExcluir(aluno._id); setDialogVisible(true); }} />
           </Card.Actions>
         </Card>
       ))}
       {mensagem ? <Text style={styles.mensagem}>{mensagem}</Text> : null}
+      <Portal>
+        <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
+          <Dialog.Title>Confirmar Exclusão</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>Tem certeza que deseja excluir este aluno?</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setDialogVisible(false)} textColor="#7c3aed">Cancelar</Button>
+            <Button onPress={excluirAluno} textColor="#c026d3">Excluir</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </ScrollView>
   );
 }
