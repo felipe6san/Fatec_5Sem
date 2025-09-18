@@ -9,7 +9,7 @@ y = [0, 1, 1, 0]
 
 #%% Config Rede
 
-mlp = MLPClassifier(verbose=True, max_iter=2000, tol=1e-3, activation='relu') #constructor
+mlp = MLPClassifier(verbose=True, hidden_layer_sizes=4, max_iter=10000, tol=1e-6, activation='relu') #constructor
 
 #%% Treinamento da Rede
 
