@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { CriaBanco, CriaTabela } from './Bd';
-import { use, useEffect } from 'react';
+import { CriaBanco, CriaTabela, InserirDados } from './Bd';
+import { useEffect } from 'react';
 import { SQLiteDatabase } from 'expo-sqlite';
 
 export default function App() {
@@ -9,6 +9,7 @@ export default function App() {
     const db = await CriaBanco();
     if (db) {
       CriaTabela(db);
+      InserirDados(db, 'João Silva', 'joao.silva@example.com');
     }
   }
   useEffect(() => {

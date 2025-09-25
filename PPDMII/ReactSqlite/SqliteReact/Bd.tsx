@@ -11,14 +11,14 @@ async function CriaBanco() {
 }
 
 async function CriaTabela(database: SQLite.SQLiteDatabase) {
-    try{
-        await database.runAsync(
+    try {
+        await database.execAsync(
             `
             PRAGMA journal_mode = WAL;
-            CREATE TABLE IF NOT EXISTS usuarios (
+            CREATE TABLE IF NOT EXISTS USUARIOS (
             ID_US INTEGER PRIMARY KEY AUTOINCREMENT,
             NOME_US VARCHAR(100),
-            EMAIL_US VARCHAR(100)
+            EMAIL_US VARCHAR(100) UNIQUE
             ); 
             `
         )
@@ -26,7 +26,30 @@ async function CriaTabela(database: SQLite.SQLiteDatabase) {
     } catch (error) {
         console.error('Erro ao criar a tabela:', error);
     }
+}
+
+async function InserirDados(db: SQLite.SQLiteDatabase, nome: string, email: string) {
+    try {
+        await db.runAsync(
+            `
+            INSERT INTO USUARIOS (NOME_US, EMAIL_US) VALUES (?, ?);
+            `,
+            [nome, email]
+        );
+        console.log('Dados inseridos com sucesso!');
+    } catch (error) {
+        console.error('Erro ao inserir dados:', error);
+    }
 
 }
 
-export { CriaBanco, CriaTabela };
+async function selectTodos(db: SQLite.SQLiteDatabase) {
+    try {
+        let arrayReg = await db.getAllAsync("SELECT * FROM USUARIOS;");
+        console.log(arrayReg);
+    } catch (error) {
+        console.error('Erro ao selecionar dados:', error);
+    }
+}
+
+export { CriaBanco, CriaTabela, InserirDados, selectTodos };
