@@ -14,8 +14,8 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#7c3aed', // Roxo principal
-    accent: '#a78bfa', // Lilás
+    primary: '#7c3aed', 
+    accent: '#a78bfa', 
     background: '#f3e8ff',
     surface: '#ede9fe',
     text: '#3b0764',
