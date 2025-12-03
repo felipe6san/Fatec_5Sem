@@ -10,9 +10,10 @@ interface HomeScreenProps {
   onAddPress: () => void;
   onEditPress: (production: Production) => void;
   onSearchPress: () => void;
+  onChangeDatabase?: () => void;
 }
 
-export default function HomeScreen({ onAddPress, onEditPress, onSearchPress }: HomeScreenProps) {
+export default function HomeScreen({ onAddPress, onEditPress, onSearchPress, onChangeDatabase }: HomeScreenProps) {
   const { selectedDatabase } = useDatabaseContext();
   const [productions, setProductions] = useState<Production[]>([]);
   const [loading, setLoading] = useState(false);
@@ -85,7 +86,9 @@ export default function HomeScreen({ onAddPress, onEditPress, onSearchPress }: H
           {item.posterUrl ? (
             <Image source={{ uri: item.posterUrl }} style={styles.posterImage} />
           ) : (
-            <Text style={styles.posterEmoji}>🎬</Text>
+            <View style={styles.placeholderContainer}>
+              <Text style={styles.placeholderEmoji}>🎬</Text>
+            </View>
           )}
         </View>
 
@@ -140,9 +143,16 @@ export default function HomeScreen({ onAddPress, onEditPress, onSearchPress }: H
       <View style={styles.header}>
         <View style={styles.headerTop}>
           <Text style={styles.headerTitle}>Cine Diário</Text>
-          <TouchableOpacity onPress={onSearchPress} style={styles.searchTMDBButton}>
-            <Text style={styles.searchTMDBText}>🔍 TMDB</Text>
-          </TouchableOpacity>
+          <View style={styles.headerButtonsRow}>
+            {onChangeDatabase && (
+              <TouchableOpacity onPress={onChangeDatabase} style={styles.changeDbButton}>
+                <Text style={styles.changeDbText}>Trocar BD</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity onPress={onSearchPress} style={styles.searchTMDBButton}>
+              <Text style={styles.searchTMDBText}>🔍 TMDB</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Filter Buttons */}
@@ -245,6 +255,23 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
   },
+  headerButtonsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  changeDbButton: {
+    backgroundColor: '#374151',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+  changeDbText: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+    fontSize: 12,
+  },
   filterScroll: {
     flexDirection: 'row',
   },
@@ -304,19 +331,31 @@ const styles = StyleSheet.create({
   },
   posterContainer: {
     width: 96,
-    height: 128,
+    // allow the poster to stretch vertically to match the card height
+    alignSelf: 'stretch',
+    minHeight: 144,
     backgroundColor: '#374151',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   posterEmoji: {
     fontSize: 32,
   },
   posterImage: {
-    width: '100%',
-    height: '100%',
+    ...StyleSheet.absoluteFillObject,
     resizeMode: 'cover',
   },
+  placeholderContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2d3842',
+  },
+  placeholderEmoji: {
+    fontSize: 28,
+    marginBottom: 6,
+  },
+  // placeholderText removed — placeholder now shows only emoji
   cardInfo: {
     flex: 1,
     padding: 12,

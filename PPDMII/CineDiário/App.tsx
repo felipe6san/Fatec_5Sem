@@ -43,6 +43,12 @@ function AppContent() {
     setCurrentScreen('edit');
   };
 
+  const handleChangeDatabase = () => {
+    // reset selected database and go back to selection screen
+    setSelectedDatabase(null as any);
+    setCurrentScreen('dbSelection');
+  };
+
   const handleCloseModal = () => {
     setCurrentScreen('home');
     setEditingProduction(null);
@@ -65,6 +71,7 @@ function AppContent() {
           onAddPress={handleAddPress} 
           onEditPress={handleEditPress}
           onSearchPress={handleSearchPress}
+          onChangeDatabase={handleChangeDatabase}
         />
       )}
       {currentScreen === 'add' && (

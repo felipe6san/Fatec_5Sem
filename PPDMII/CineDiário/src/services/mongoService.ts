@@ -4,7 +4,7 @@ import { Production } from '../types/Production';
 // IMPORTANTE: Altere para o IP do seu computador na rede local
 // Use 'ipconfig' no Windows para descobrir seu IP (procure por IPv4)
 // Exemplo: 192.168.15.2, 192.168.1.100, etc.
-const API_URL = 'http://192.168.0.7:3000/api';
+const API_URL = 'http://192.168.50.117:3000/api';
 
 export const mongoService = {
   // Produção
