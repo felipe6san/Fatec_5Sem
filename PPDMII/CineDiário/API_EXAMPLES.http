@@ -1,0 +1,232 @@
+### Exemplos de Requisições HTTP para a API
+
+Você pode usar estes exemplos em:
+- Postman (https://www.postman.com/)
+- Insomnia (https://insomnia.rest/)
+- REST Client (VS Code Extension)
+- curl (command line)
+
+Certifique-se que o backend está rodando em http://localhost:3000
+
+---
+
+### Health Check - Verificar se servidor está funcionando
+
+```http
+GET http://localhost:3000/api/health
+```
+
+---
+
+### CREATE - Adicionar nova produção
+
+```http
+POST http://localhost:3000/api/productions
+Content-Type: application/json
+
+{
+  "titulo": "Oppenheimer",
+  "anoLancamento": 2023,
+  "genero": "Drama",
+  "tipo": "filme",
+  "minhaNotas": 9,
+  "ondeAssistiu": "Cinema",
+  "resumo": "Filme extraordinário sobre J. Robert Oppenheimer"
+}
+```
+
+Exemplos adicionais:
+
+```http
+POST http://localhost:3000/api/productions
+Content-Type: application/json
+
+{
+  "titulo": "Breaking Bad",
+  "anoLancamento": 2008,
+  "genero": "Drama",
+  "tipo": "série",
+  "minhaNotas": 10,
+  "ondeAssistiu": "Netflix",
+  "resumo": "Melhor série de todos os tempos"
+}
+```
+
+```http
+POST http://localhost:3000/api/productions
+Content-Type: application/json
+
+{
+  "titulo": "Dune",
+  "anoLancamento": 2021,
+  "genero": "Ficção Científica",
+  "tipo": "filme",
+  "minhaNotas": 8,
+  "ondeAssistiu": "Cinema",
+  "resumo": "Adaptação cinematográfica épica"
+}
+```
+
+---
+
+### READ - Obter todas as produções
+
+```http
+GET http://localhost:3000/api/productions
+```
+
+---
+
+### READ - Obter produção específica
+
+Substitua `{id}` pelo ID retornado ao criar uma produção
+
+```http
+GET http://localhost:3000/api/productions/{id}
+```
+
+Exemplo:
+```http
+GET http://localhost:3000/api/productions/507f1f77bcf86cd799439011
+```
+
+---
+
+### READ - Filtrar por tipo
+
+```http
+GET http://localhost:3000/api/productions/type/filme
+```
+
+ou
+
+```http
+GET http://localhost:3000/api/productions/type/série
+```
+
+---
+
+### READ - Filtrar por gênero
+
+```http
+GET http://localhost:3000/api/productions/genre/Drama
+```
+
+Outros gêneros:
+```http
+GET http://localhost:3000/api/productions/genre/Ação
+GET http://localhost:3000/api/productions/genre/Comédia
+GET http://localhost:3000/api/productions/genre/Ficção%20Científica
+GET http://localhost:3000/api/productions/genre/Horror
+```
+
+---
+
+### READ - Filtrar por plataforma
+
+```http
+GET http://localhost:3000/api/productions/platform/Netflix
+```
+
+Outras plataformas:
+```http
+GET http://localhost:3000/api/productions/platform/Cinema
+GET http://localhost:3000/api/productions/platform/Amazon%20Prime
+GET http://localhost:3000/api/productions/platform/HBO%20Max
+GET http://localhost:3000/api/productions/platform/Disney+
+```
+
+---
+
+### UPDATE - Atualizar produção
+
+Substitua `{id}` pelo ID que deseja atualizar
+
+```http
+PUT http://localhost:3000/api/productions/{id}
+Content-Type: application/json
+
+{
+  "minhaNotas": 10,
+  "resumo": "Ainda melhor na segunda assistida!"
+}
+```
+
+Você pode atualizar um ou mais campos:
+
+```http
+PUT http://localhost:3000/api/productions/{id}
+Content-Type: application/json
+
+{
+  "titulo": "Oppenheimer - Directors Cut",
+  "minhaNotas": 10
+}
+```
+
+---
+
+### DELETE - Deletar produção
+
+```http
+DELETE http://localhost:3000/api/productions/{id}
+```
+
+Exemplo:
+```http
+DELETE http://localhost:3000/api/productions/507f1f77bcf86cd799439011
+```
+
+---
+
+## Usando com curl (Command Line)
+
+### Adicionar produção
+```bash
+curl -X POST http://localhost:3000/api/productions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "titulo": "Oppenheimer",
+    "anoLancamento": 2023,
+    "genero": "Drama",
+    "tipo": "filme",
+    "minhaNotas": 9,
+    "ondeAssistiu": "Cinema"
+  }'
+```
+
+### Listar todas
+```bash
+curl http://localhost:3000/api/productions
+```
+
+### Obter uma específica
+```bash
+curl http://localhost:3000/api/productions/{id}
+```
+
+### Atualizar
+```bash
+curl -X PUT http://localhost:3000/api/productions/{id} \
+  -H "Content-Type: application/json" \
+  -d '{"minhaNotas": 10}'
+```
+
+### Deletar
+```bash
+curl -X DELETE http://localhost:3000/api/productions/{id}
+```
+
+---
+
+## Notas Importantes
+
+1. **IDs MongoDB**: Os IDs são gerados automaticamente pelo MongoDB (ObjectId)
+2. **Datas**: São registradas automaticamente no servidor
+3. **Validação**: A nota deve estar entre 0-10
+4. **Tipo**: Apenas "filme" ou "série" são válidos
+5. **Campos opcionais**: `posterUrl` e `resumo` são opcionais
+
+---
+
+**Bom teste! 🎬**

@@ -1,0 +1,31 @@
+{
+  "name": "cinediario",
+  "version": "1.0.0",
+  "description": "Aplicativo de Catálogo de Filmes/Séries com SQLite e MongoDB",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "backend": "cd backend && node src/server.js"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "axios": "^1.7.0",
+    "expo": "~54.0.0",
+    "expo-asset": "~11.1.0",
+    "expo-sqlite": "~16.0.0",
+    "expo-status-bar": "~2.2.0",
+    "react": "19.0.0",
+    "react-native": "0.78.0",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.10.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@types/react": "~19.0.0",
+    "typescript": "~5.8.0"
+  },
+  "private": true
+}
