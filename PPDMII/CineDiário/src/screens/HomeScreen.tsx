@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, FlatList, Alert, StyleSheet, RefreshControl } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, FlatList, Alert, StyleSheet, RefreshControl, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDatabaseContext } from '../contexts/DatabaseContext';
 import { Production } from '../types/Production';
@@ -82,7 +82,11 @@ export default function HomeScreen({ onAddPress, onEditPress, onSearchPress }: H
       <View style={styles.cardRow}>
         {/* Poster */}
         <View style={styles.posterContainer}>
-          <Text style={styles.posterEmoji}>🎬</Text>
+          {item.posterUrl ? (
+            <Image source={{ uri: item.posterUrl }} style={styles.posterImage} />
+          ) : (
+            <Text style={styles.posterEmoji}>🎬</Text>
+          )}
         </View>
 
         {/* Info */}
@@ -307,6 +311,11 @@ const styles = StyleSheet.create({
   },
   posterEmoji: {
     fontSize: 32,
+  },
+  posterImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   cardInfo: {
     flex: 1,
